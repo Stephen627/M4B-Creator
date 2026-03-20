@@ -1,0 +1,4 @@
+# Requirements for Audiobook Converter
+
+# No third-party dependencies are required as the script uses standard Python libraries.
+# However, you must have `ffmpeg` and `ffprobe` installed on your system.
