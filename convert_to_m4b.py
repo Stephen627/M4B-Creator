@@ -18,6 +18,14 @@ def get_duration(file_path):
         sys.exit(1)
     return float(result.stdout.strip())
 
+def format_duration(seconds):
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    if hours > 0:
+        return f"{hours}:{minutes:02d}:{secs:02d}"
+    return f"{minutes}:{secs:02d}"
+
 def main():
     parser = argparse.ArgumentParser(description="Convert directory of MP3s to a single M4B file.")
     parser.add_argument("directory", help="Path to the directory containing MP3 files")
@@ -49,12 +57,18 @@ def main():
     # Sort files by order
     files.sort(key=lambda x: x['order'])
 
+    # Get durations for display
+    for f in files:
+        filepath = os.path.join(target_dir, f['filename'])
+        f['duration'] = get_duration(filepath)
+
     # Present order to user
     print(f"\nFound {len(files)} chapters:")
-    print("-" * 50)
+    print("-" * 70)
     for f in files:
-        print(f"Order: {f['order']:02d} | Chapter Name: {f['name']} | File: {f['filename']}")
-    print("-" * 50)
+        runtime = format_duration(f['duration'])
+        print(f"Order: {f['order']:02d} | Chapter Name: {f['name']} | Runtime: {runtime} | File: {f['filename']}")
+    print("-" * 70)
 
     # Ask for confirmation
     if not args.yes:
