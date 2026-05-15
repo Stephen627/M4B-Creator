@@ -33,7 +33,15 @@ The script will:
 1. Scan the directory and parse the files.
 2. Present you with the calculated order and chapter names.
 3. Ask for your confirmation before proceeding.
-4. Generate an `output.m4b` file in the provided directory.
+4. Generate an `.m4b` file in the provided directory.
+
+### Output Filename
+
+The output filename is determined by:
+1. A `name.txt` file in the audiobook directory (if present, the first line is used as the filename).
+2. If `name.txt` does not exist, the directory name is used.
+
+For example, if the audiobook directory contains a `name.txt` file with the text `My Book`, the output file will be `My Book.m4b`.
 
 ## Docker
 

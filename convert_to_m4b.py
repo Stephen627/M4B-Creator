@@ -81,9 +81,16 @@ def main():
     inputs_txt_path = os.path.join(target_dir, 'inputs.txt')
     metadata_txt_path = os.path.join(target_dir, 'metadata.txt')
     
-    # Use folder name for output filename
-    folder_name = os.path.basename(target_dir.rstrip(os.sep))
-    output_m4b_filename = f"{folder_name}.m4b"
+    # Determine output filename: prefer name.txt, fall back to directory name
+    name_txt_path = os.path.join(target_dir, 'name.txt')
+    if os.path.isfile(name_txt_path):
+        with open(name_txt_path, 'r', encoding='utf-8') as f:
+            book_name = f.read().strip()
+        if not book_name:
+            book_name = os.path.basename(target_dir.rstrip(os.sep))
+    else:
+        book_name = os.path.basename(target_dir.rstrip(os.sep))
+    output_m4b_filename = f"{book_name}.m4b"
     output_m4b_path = os.path.join(target_dir, output_m4b_filename)
 
     try:
